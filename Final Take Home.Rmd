@@ -1,0 +1,145 @@
+---
+title: "Summer 2017 Stat 135 final (take home part)"
+author: "Karla Betel Palos Castellanos"
+date: "Tuesday August 8 2017"
+output: github_document
+---
+
+
+
+# Rules
+
+* This is not a collaborative exam. You may not speak with another student in the class about this exam before Wednesday morning after 10am.
+* You may use any course material for this exam. You may use online resourses like stack overflow.
+* Turn in your exam to b-courses by 8am on Wednesday. Please submit both an html document and your sourse .Rmd file.
+*I have included the source code used to make this document. You may edit it and use it as a template for your exam.
+*If you get stuck, you may email me for help. No postings on Piazza obviously.
+*This exam is worth 20% of your final exam score (roughly 5% for each question).
+
+
+On this exam you will explore the data set KaiserBabies.rda which contains the data frame *infants* containing information that Kaiser collects of all patients in their maternity ward at Kaiser hospital in SF during the month of May 2017.
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+```{r}
+
+#the function load, loads a dataset into your workspace. It outputs a vector of all dataframes in the data set. In this case there is just one data set called infants. 
+data <- load(url("http://www.stat.berkeley.edu/users/nolan/data/KaiserBabies.rda"))
+data
+#you can see the variables in this data frame using the head command.
+head(infants)
+
+```
+
+#Question 1
+Take a simple random sample (without replacement) of size 100 observations using the two lines of code below. The function set.seed makes it so that everyone will be using the same sample.
+```{r,eval=FALSE}
+set.seed(7)
+mysample=sample(na.omit(infants$wt),100)
+```
+
+###a)
+Use the sample average to estimate the average weight of the mothers, calculate the estimated standard error of these estimates and form a 95% confidence interval for the average of the population (assuming normality works)
+```{r}
+sample_avg_seed<- mean(mysample)
+sd_sample_seed <- sd(mysample) 
+n<- 100
+SE<- sd_sample_seed/sqrt(n)
+
+lower_bound <-sample_avg_seed - (qnorm(.975))*SE
+upper_bound <-sample_avg_seed + (qnorm(.975))*SE
+CI<- c(lower_bound, upper_bound)
+```
+
+###b)  
+Repeat 1000 times (without using the set.seed function) to get 1000 different confidence intervals. How many of them do you expect to cover the true average? How many do? Note that in practice you would be unable to do this since you only get one sample.
+```{r}
+library(dplyr)
+pop <- infants$wt
+num_samples <- 1000
+sample_size <- 100
+my_sample <- sample(pop,sample_size)
+
+#we will run this function many times
+find_error<- function(){
+  resample <- my_sample %>%sample(replace=TRUE)
+  mean_resample<-mean(resample)
+  sd_resample<- sd(resample)
+  Serror<- sd_resample/sqrt(sample_size)
+  error
+}
+
+
+left<-replicate(num_samples, find_error())
+right<-replicate(num_samples, find_error())
+
+
+#find SE of the sample mean
+sd(means)
+
+# histogram
+
+my_data <- data.frame(means)
+
+#make simple histogram
+my_data %>% ggplot(aes(x=means)) + geom_histogram(binwidth=10)
+
+```
+
+###c)  
+Calculate the SD of the sample averages. Is it close to the estimated standard error from a)? Make a histogram of the sample averages to see if it seems plausible that the probability histogram for the sample average follows the normal curve pretty closely. Make a probability plot to further investigate. Does it seem like the confidence intervalis valid?
+
+
+#Question 2  
+Starting with your original sample do the following.
+
+###a)  
+Use the nonparametric bootstrap to get 1000 random samples of size 100. For each, get the sample average and make a histogram of these sample averages (this is called the sampling distribution of the mean). Put a vertical line through the average of the sampling distribtuion. Calculate the SD of the sample averages. Is it close to the estimated SE from 1a above?
+
+###b)  
+Construct a 95% bootstrap CI by taking 2.5 and 97.5 percentile of the bootstrap averages. How does it compare to the CI you got in 1a)?
+
+
+#Question 3  
+
+We will now use the 1236 observations in the data set `infants` to perform a linear regression analysis.
+
+###a)  
+Fit a linear relationship between the gestation period (x=`gestation`) of a baby and the baby's birthweight (y=`bwt`). What is the equation of the regression line? Make a plot of the regression line on top of the scatter diagram.
+
+###b) 
+Examine the residuals and comment whether the assumptions of the standard statistical model are satisfied.
+
+###c)  
+Assuming the model is reasonable, what birthweight would you predict to have if a baby has a gestation period of 300 days?
+
+#Question 4
+
+We wish to compare the mean gestation birth weight (`bwt`) of mothers who smoke (`smoke=Now`) versus mothers who don't smoke (`smoke=Never`). I will help you with data cleaning and then I want you to do a statistical analysis of whether birthweights are significantly different if mothers smoke or not.
+
+Lets create a smaller data frame from `infants` consisting of two variables `gestation` and `smoke`. We will eliminate observations if the `smoke` doesn't take the value `smoke=Never` or `smoke=Now`. 
+
+```{r message=FALSE}
+library(dplyr)
+smoke <- infants$smoke
+gestation <- infants$gestation
+df <- data.frame(smoke, gestation)
+df <- df %>% filter(smoke=="Never" |  smoke =="Now") #make data frame where smoke variable takes only two values, "Never" or "Now"
+head(df)
+```
+
+The data frame `df` is in tidy format (see lecture 14 in class exercises).
+
+###a)  
+Make a boxplot to examine `gestation` as a function of `smoke`. What do you conclude?
+
+###b)  
+Make a check of the assumption that the distributions of `gestation` are normal by making a Normal Q-Q plot. Also make a plot to check that the variances are the same. What are your conclusions?
+
+###c)   
+Make a t-test and a nonparametric Mann-Whitney test to test the null hypoethesis that the mean gestation periods are the same. Which result to you have more confidence in?
+
+
+
+
