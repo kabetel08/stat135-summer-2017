@@ -133,13 +133,13 @@ median_differences_vector <-  replicate(num_samples,find_median())
 mean(median_differences_vector)
 ```
 
-    ## [1] -347.089
+    ## [1] -346.1625
 
 ``` r
 sd(median_differences_vector)
 ```
 
-    ## [1] 118.0079
+    ## [1] 116.5045
 
 ``` r
 sigma_hat<- sqrt( var(my_sample)/14)
