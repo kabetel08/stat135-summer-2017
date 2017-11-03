@@ -1,11 +1,11 @@
 Homework1
 ================
 
-Bootstrapping the SE of an MLE estimate. n i.i.d. R.V. X1,X2,..., Xn, each with probability fuction P(X=0|tetha)=(2/3)tetha P(X=1|tetha)=(1/3)tetha P(X=2|tetha)=(2/3)(1-tetha) P(X=3|tetha)=(1/3)(1-tetha)
+Bootstrapping the SE of an MLE estimate. n i.i.d. R.V. X1,X2,.., Xn, each with probability function P(X=0| theta)=(2/3)theta P(X=1| theta)=(1/3)theta P(X=2| theta)=(2/3)(1-theta) P(X=3| theta)=(1/3)(1-theta)
 
-tetha is unkown Use R to bootstrap an approximate SE of the maximum likelihood estimate.
+Theta is unknown Use R to bootstrap an approximate SE of the maximum likelihood estimate.
 
-Step 1) \[sample\] From question 1H we have that 10 independent obervations were taken from such a disribution: (3,0,2,1,3,2,1,0,2,1)&lt;= values of a sample of 10 i.i.d. R.V. X1,... X10
+Step 1) \[sample\] From question 1H we have that 10 independent observations were taken from such a distribution: (3,0,2,1,3,2,1,0,2,1)&lt;= values of a sample of 10 i.i.d. R.V. X1,... X10
 
 ``` r
 library(dplyr)
@@ -52,10 +52,10 @@ MLES <-  replicate(num_samples, find_MLE())
 sd(MLES)
 ```
 
-    ## [1] 0.1464986
+    ## [1] 0.1556951
 
 ``` r
 print(sd(MLES))
 ```
 
-    ## [1] 0.1464986
+    ## [1] 0.1556951
