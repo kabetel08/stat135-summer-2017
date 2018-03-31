@@ -1,1 +1,1 @@
-# ConceptsOfStatistics_STAT135
+# stat135-summer-2017
