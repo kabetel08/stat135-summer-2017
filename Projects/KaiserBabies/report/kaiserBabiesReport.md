@@ -146,13 +146,13 @@ sampleSD
 hist(means)
 ```
 
-![](final_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-5-1.png)
+![](kaiserBabiesReport_files/figure-markdown_github/unnamed-chunk-5-1.png)
 
 ``` r
 qqnorm(means)
 ```
 
-![](final_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-5-2.png)
+![](kaiserBabiesReport_files/figure-markdown_github/unnamed-chunk-5-2.png)
 
 ``` r
 #The SD of the sample averages is 2.288204, and we found the SE from a) to be 2.059253, which is very similar. 
@@ -212,7 +212,7 @@ plot<- means_df%>% ggplot(aes(x=means_vec)) +
 plot
 ```
 
-![](final_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-6-1.png)
+![](kaiserBabiesReport_files/figure-markdown_github/unnamed-chunk-6-1.png)
 
 ``` r
 print(paste("SE from part a) is 2.059253 and the sd for this problem is", sd, ". They appear to be very close."))
@@ -287,7 +287,7 @@ OModelPlot<- df %>% ggplot(aes(x=df$x,y=df$y)) + geom_point() + geom_abline(inte
 OModelPlot
 ```
 
-![](final_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-8-1.png)
+![](kaiserBabiesReport_files/figure-markdown_github/unnamed-chunk-8-1.png)
 
 ``` r
 # from the summary we can see that the x is insignificant(by analyzing the pvalue of x and in the intercept), so we can improve our model by getting rid of the intercept
@@ -329,7 +329,7 @@ NewMP<- OModelPlot + geom_abline(intercept=0,slope = 0.4283521, color="blue")
 NewMP
 ```
 
-![](final_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-8-2.png)
+![](kaiserBabiesReport_files/figure-markdown_github/unnamed-chunk-8-2.png)
 
 ### b)
 
@@ -347,13 +347,13 @@ qqnorm(NewModel.lm.resid)
 qqline(NewModel.lm.resid)
 ```
 
-![](final_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-9-1.png)
+![](kaiserBabiesReport_files/figure-markdown_github/unnamed-chunk-9-1.png)
 
 ``` r
 resplot<- plot(df$x, NewModel.lm.resid) +abline(h=0, col="red")
 ```
 
-![](final_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-9-2.png)
+![](kaiserBabiesReport_files/figure-markdown_github/unnamed-chunk-9-2.png)
 
 ``` r
 resplot
@@ -395,6 +395,11 @@ smoke <- infants$smoke
 gestation <- infants$gestation
 df <- data.frame(smoke, gestation)
 df <- df %>% filter(smoke=="Never" |  smoke =="Now") #make data frame where smoke variable takes only two values, "Never" or "Now"
+```
+
+    ## Warning: package 'bindrcpp' was built under R version 3.4.4
+
+``` r
 head(df)
 ```
 
@@ -432,7 +437,7 @@ head(df)
 boxplot(formula=df$gestation~df$smoke)
 ```
 
-![](final_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-12-1.png)
+![](kaiserBabiesReport_files/figure-markdown_github/unnamed-chunk-12-1.png)
 
 ``` r
 #the group people who have never smokes appears to have more outliers. Also they appear to have a slightly longer gestation period.The avgs appear to be about the same for both, and they both seem to follow a normal distribution 
@@ -450,19 +455,19 @@ NSGestation <- NSGestation$gestation
 A<-qqnorm(SGestation, col= "red")
 ```
 
-![](final_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-13-1.png)
+![](kaiserBabiesReport_files/figure-markdown_github/unnamed-chunk-13-1.png)
 
 ``` r
 B<-qqnorm(NSGestation, col= "blue")
 ```
 
-![](final_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-13-2.png)
+![](kaiserBabiesReport_files/figure-markdown_github/unnamed-chunk-13-2.png)
 
 ``` r
 qqplot(SGestation,NSGestation)
 ```
 
-![](final_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-13-3.png)
+![](kaiserBabiesReport_files/figure-markdown_github/unnamed-chunk-13-3.png)
 
 ``` r
 # from the line in the qqplogt (although seemingly straight) we can conclude that the variance are not the same (by looking at the ends)
