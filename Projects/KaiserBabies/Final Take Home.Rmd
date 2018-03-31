@@ -75,15 +75,13 @@ left<-replicate(num_samples, find_error())
 right<-replicate(num_samples, find_error())
 
 
+
 #find SE of the sample mean
-sd(means)
 
 # histogram
 
-my_data <- data.frame(means)
-
 #make simple histogram
-my_data %>% ggplot(aes(x=means)) + geom_histogram(binwidth=10)
+
 
 ```
 
@@ -121,15 +119,9 @@ We wish to compare the mean gestation birth weight (`bwt`) of mothers who smoke 
 Lets create a smaller data frame from `infants` consisting of two variables `gestation` and `smoke`. We will eliminate observations if the `smoke` doesn't take the value `smoke=Never` or `smoke=Now`. 
 
 ```{r message=FALSE}
-library(dplyr)
-smoke <- infants$smoke
-gestation <- infants$gestation
-df <- data.frame(smoke, gestation)
-df <- df %>% filter(smoke=="Never" |  smoke =="Now") #make data frame where smoke variable takes only two values, "Never" or "Now"
-head(df)
-```
 
-The data frame `df` is in tidy format (see lecture 14 in class exercises).
+
+```
 
 ###a)  
 Make a boxplot to examine `gestation` as a function of `smoke`. What do you conclude?
