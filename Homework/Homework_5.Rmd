@@ -1,0 +1,244 @@
+---
+title: "Homework_5"
+author: "Karla Palos"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+##CHAPTER 11##
+
+##39*
+
+An experiment was done to test a method for reducing faults on telephone lines (Welch 1987). Fourteen matched pairs of areas were used. The following table shows the fault rates for the control areas and for the test areas:
+```{r}
+test <-c(676,206,230,256,280,433,337,466,497,512,794,428,452,512)
+control <-c(88,570,605,617,653,2913,924,286,1098,982,2346,321,615,519)
+
+
+differences =test-control
+
+
+```
+
+a. Plot the differences versus the control rate and summarize what you see.
+```{r}
+plotdiff <- qqplot(control, differences)
+plotdiff
+```
+
+b. Calculate the mean difference,its standard deviation,and a confidence interval.
+```{r}
+#mean
+differences_mean <- mean(differences)
+
+#var
+VarDiff <-var(differences)
+
+#SD
+SDDiff <- sqrt(VarDiff/14)
+
+#CI
+#Difference +- t(n-1),(1-aplha)SD Difference
+
+test<- t.test(differences, alterative="two.sided", conf.level=.95)
+test
+#from the t-test we can see that the 95% CI is (-898.83,-23.75)
+CI_lowerbound <- -898.83
+CI_upperbound <- -23.75
+
+
+#values DF
+values <-c(differences_mean, VarDiff, SDDiff, CI_lowerbound, CI_upperbound)
+names<-c("differences_mean", "Var Difference", "SD Difference", "95% CI lower bound","95% CI upper bound" )
+name_value<- data.frame(names, values)
+name_value
+
+```
+
+c. Calculate the median difference and a confidence interval and compare to the
+previous result.
+
+```{r}
+library(dplyr)
+#median difference
+sorted_differences<- sort(differences)
+median_diff <-median(sorted_differences)
+median_diff
+
+#finding CI
+#1) bootstrap
+pop <- differences
+num_samples <- 1000
+sample_size <- 14
+my_sample <- sample(pop,sample_size)
+
+find_median <- function(){
+  resample <- my_sample%>%sample(replace=TRUE)
+  sort_resample <- sort(resample)
+  median(sort_resample)
+}
+
+median_differences_vector <-  replicate(num_samples,find_median())
+
+mean(median_differences_vector)
+sd(median_differences_vector)
+
+sigma_hat<- sqrt( var(my_sample)/14)
+
+quantile(median_differences_vector,.025)
+quantile(median_differences_vector,.975)
+
+
+
+```
+
+d. Do you think it is more appropriate to use a t test or a non parametric method to
+test whether the apparent difference between test and control could be due to chance? Why? Carry out both tests and compare.
+```{r}
+#T-test
+#used above 
+test<- t.test(differences, alterative="two.sided", conf.level=.95)
+test
+
+
+
+
+#non Parametic
+test <-c(676,206,230,256,280,433,337,466,497,512,794,428,452,512)
+control <-c(88,570,605,617,653,2913,924,286,1098,982,2346,321,615,519)
+
+
+differences =test-control
+abs_differences <-abs(differences)
+rank <- rank(abs_differences)
+signed_rank <- rank*(differences/abs_differences)
+
+data_f<- data.frame(test,control,differences, abs_differences,rank, signed_rank)
+
+qqnorm(differences)
+qqline(differences)
+W_pos <- data_f%>%filter(data_f[,6]>0)
+W_pos
+
+
+
+wilcox.test(differences, alternative = "two.sided", conf.level = .95)
+
+
+
+
+```
+
+
+
+
+
+##48*
+
+Proteinuria,the presence of excess protein in urine,is a symptom of renal(kidney) distress among diabetics. Taguma et al. (1985) studied the effects of captopril for treating proteinuria in diabetics. Urinary protein was measured for 12 patients before and after eight weeks of captopril therapy. The amounts of urinary protein (in g/24 hrs) before and after therapy are shown in the following table. What can you conclude about the effect of captopril? Consider using parametric or nonparametric methods and analyzing the data on the original scale or on a log scale.
+
+```{r}
+before <- c(24.6, 17, 16, 10.4, 8.2, 7.9, 8.2, 7.9, 5.8, 5.4, 5.1, 4.7)
+after <- c(10.1, 5.7, 5.6, 3.4, 6.5, 0.7, 6.5, 0.7, 6.1, 4.7, 2.0, 2.9 )
+
+#H0: mu_Difference =0; that is distributiion is symmetric about 0 
+
+#H1: mu_Difference =!0; distrobution is not symmetric about 0
+
+diff<- before-after
+
+#Parametric
+t.test(before, after, paired= TRUE)
+
+
+#Non Parametric
+abs_diff=abs(diff)
+rank <- rank(abs_diff)
+signed_rank <- rank*(diff/abs_diff)
+df <- data.frame(before,after,diff, abs_diff,rank, signed_rank)
+df
+
+qqnorm(diff)
+qqline(diff)
+wplus<- df%>%filter(df[,6]>0)
+wplus
+wilcox.test(before,after,paired = TRUE)
+
+```
+
+
+
+##50
+The file bodytemp contains normal body temperature readings (degrees Fahrenheit) and heart rates (beats per minute) of 65 males (coded by 1) and 65 females (coded by 2) from Shoemaker (1996).
+a. Using normal theory, form a 95% confidence interval for the difference of mean body temperatures between males and females. Is the use of the normal approximation reasonable?
+```{R}
+```
+
+b. Using normal theory, form a 95% confidence interval for the difference of mean heart rates between males and females. Is the use of the normal approx- imation reasonable?
+
+```{R}
+```
+c. Use both parametric and nonparametric tests to compare the body tempera- tures and heart rates. What do you conclude?
+```{R}
+```
+
+
+2, 5*, 6, 12*, 18*,23, 29*, 38*
+
+##CHAPTER 14##
+##2 
+ Plot y versus x for the following pairs:
+```{r}
+x<- c(.34,1.38, -.65, .68, 1.40, -0.88, -.30, -1.18,.50, -1.75)
+y <- c(.27, 1.34, -.53, .35, 1.28,-.98,-.72,-.81, .64 ,-1.59)
+```
+a. Fit a line y = a + bx by the method of least squares, and sketch it on the plot. 
+b. Fit a line x = c + dy by the method of least squares, and sketch
+c. Are the lines in parts (a) and (b) the same? If not, why not?
+
+
+##38*
+The file sapphire lists observed values of Young’s modulus (g) measured at various temperatures (T ) for sapphire rods (Ku 1969). Fit a linear relationship g = β0 +β1t, and form confidence intervals for the coefficients. Examine the residuals.
+
+```{r}
+path <- file.path("~","Desktop","sapphire.csv")
+sapphire <- read.csv(path)
+x<- sapphire[,1]
+y<- sapphire[,2]
+
+
+regress <- lm(formula=y~x)
+summary(regress)
+
+regress$coefficients
+
+#g=regress$coefficients[1]+ t*regress$coefficients[2]
+#g=628.6-0.614t
+
+
+
+#CI:
+#95% CI for Constat 
+#from table we can see that the intercept is 628.6, and its standard error is 13.42758, in addition since we are computing a 95% CI, we find that the t value for (0.025) with 22 df is 2.074. Thefore the CI is [628.6- 2.074*13.42758, 628.6+2.074*13.42758]
+CI <- c(628.6- 2.074*13.42758, 628.6+2.074*13.42758)
+
+#95% CI for slope 
+#form the table we can see that the slope is -0.61369 and its standard error is 0.01761, in addition since we are computing a 95% CI, we find that the t value for (0.025) with 22 df is 2.074. The CI is [-0.61369- 2.074*0.01761, -0.61369+2.074*0.01761]
+CI <- c( -0.61369-2.074*0.01761, -0.61369+2.074*0.01761)
+
+
+
+
+sapphires_residual  <-resid(regress)
+resplot<- plot(x, sapphires_residual, ylab="Residuals", xlab="x", main = "Sapphires")
+resplot + abline(0, 0)  
+
+fitted_plot <- plot(x, y, main="Scatterplot",  pch=5)
+fitted_plot +abline(lm(y~x), col="red")
+
+```
+
