@@ -1,13 +1,25 @@
----
-title: "Lab2"
-author: "Karla Palos "
-output: github_document
----
+Lab2
+================
+Karla Palos
 
-```{r}
+``` r
 #a)
 
 library(dplyr)
+```
+
+    ## 
+    ## Attaching package: 'dplyr'
+
+    ## The following objects are masked from 'package:stats':
+    ## 
+    ##     filter, lag
+
+    ## The following objects are masked from 'package:base':
+    ## 
+    ##     intersect, setdiff, setequal, union
+
+``` r
 library(ggplot2)
 library(readxl)
 hospitals <- read_excel("../data/hospitals.xls")
@@ -16,20 +28,52 @@ data <- as.matrix(hospitals)
 data1<- data.frame(hospitals)
 
 ggplot(data1, aes(x=data1$X.discharges)) + geom_histogram() +xlab("Discharges")
+```
+
+    ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+
+![](Lab_2_files/figure-markdown_github/unnamed-chunk-1-1.png)
+
+``` r
 ggplot(data1, aes(data1$X.beds.)) + geom_histogram() +xlab("Beds")
+```
 
+    ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 
+![](Lab_2_files/figure-markdown_github/unnamed-chunk-1-2.png)
+
+``` r
 #b)
 
 #Meand of the columns 
 colMeans(data)
+```
 
+    ## 'discharges'       'beds' 
+    ##     814.6031     274.8244
+
+``` r
 #Variance and Standar Devidation
 var(data)
+```
+
+    ##              'discharges'    'beds'
+    ## 'discharges'     347766.4 114565.71
+    ## 'beds'           114565.7  45484.23
+
+``` r
 sd(data[,1])
+```
+
+    ## [1] 589.7173
+
+``` r
 sd(data[,2])
+```
 
+    ## [1] 213.2703
 
+``` r
 #c)
 
 #STEP 1
@@ -72,12 +116,30 @@ meansB<- replicate(number_of_samples, find_meanB())
 
 #Discharges 
 sd(meansD)
+```
+
+    ## [1] 108.0043
+
+``` r
 var(meansD)
+```
+
+    ## [1] 11664.92
+
+``` r
 #Beds
 sd(meansB)
+```
+
+    ## [1] 48.85922
+
+``` r
 var(meansB)
+```
 
+    ## [1] 2387.223
 
+``` r
 #STEP 4
 #Historgrams 
 
@@ -91,20 +153,34 @@ my_dataB <- data.frame(meansB)
 
 #Discharges
 my_dataD %>% ggplot(aes(x=meansD)) + geom_histogram(binwidth=10)
+```
+
+![](Lab_2_files/figure-markdown_github/unnamed-chunk-1-3.png)
+
+``` r
 #Beds
 my_dataB %>% ggplot(aes(x=meansB)) + geom_histogram(binwidth=10)
+```
 
+![](Lab_2_files/figure-markdown_github/unnamed-chunk-1-4.png)
 
-
+``` r
 #d)
 
 my_sampleD <- sample(discharges_pop,sample_size);
 mean(my_sampleD)
+```
 
+    ## [1] 654.56
+
+``` r
 my_sampleB <- sample(beds_pop,sample_size);
 mean(my_sampleB)
+```
 
+    ## [1] 315.48
 
+``` r
 #e)
 
 #Estimate sigma_hat
@@ -125,24 +201,48 @@ sigma_hatB<- sqrt( var(my_sampleB)*(1-25/393))
 
 #Discharges
 mean(data[,1])
+```
 
+    ## [1] 814.6031
+
+``` r
 CI_lower_D = mean(my_sampleD) - 1.96*(sigma_hatD)*(1/5)
 CI_upper_D = mean(my_sampleD) + 1.96*(sigma_hatD)*(1/5)
 
 CI_lower_D
-CI_upper_D
+```
 
+    ## [1] 427.5975
+
+``` r
+CI_upper_D
+```
+
+    ## [1] 881.5225
+
+``` r
 #Beds
 mean(data[,2])
+```
 
+    ## [1] 274.8244
+
+``` r
 CI_lower_B = mean(my_sampleB) - 1.96*(sigma_hatB)*(1/5)
 CI_upper_B = mean(my_sampleB) + 1.96*(sigma_hatB)*(1/5)
 
 CI_lower_B
+```
+
+    ## [1] 225.7487
+
+``` r
 CI_upper_B
+```
 
+    ## [1] 405.2113
 
-
+``` r
 #g)
 
 
@@ -152,32 +252,62 @@ sample_size = 100
 #Discharges
 my_sample_D <- sample(discharges_pop,sample_size)
 mean(my_sample_D)
+```
 
+    ## [1] 821.58
+
+``` r
 sigma_hat_D<- sqrt(var(my_sample_D)*(1- 100/393) )
 
 
 mean(data[,1])
+```
 
+    ## [1] 814.6031
+
+``` r
 CI_l_D = mean(my_sample_D) - 1.96*(sigma_hat_D)*(1/10)
 CI_u_D = mean(my_sample_D) + 1.96*(sigma_hat_D)*(1/10)
 
 CI_l_D
+```
+
+    ## [1] 729.3412
+
+``` r
 CI_u_D
+```
 
+    ## [1] 913.8188
 
+``` r
 #Beds
 my_sample_B <- sample(beds_pop,sample_size)
 mean(my_sample_B)
+```
 
+    ## [1] 272.68
+
+``` r
 sigma_hat_B<- sqrt(var(my_sample_B)*(1- 100/393) )
 
 
 mean(data[,2])
+```
 
+    ## [1] 274.8244
+
+``` r
 CI_l_B = mean(my_sample_B) - 1.96*(sigma_hat_B)*(1/10)
 CI_u_B = mean(my_sample_B) + 1.96*(sigma_hat_B)*(1/10)
 
 CI_l_B
+```
+
+    ## [1] 236.5165
+
+``` r
 CI_u_B
 ```
 
+    ## [1] 308.8435
