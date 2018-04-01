@@ -1,6 +1,6 @@
 #  Kaiser Babies 
 
-####About
+#### About
 
 * The purpose of the project is to apply mathematical statistic and data analysis using R on an pre cleaned data file called Infants. The data can be obtained from the url found in the notes below. Some of its variables include: gestation period, birthweight, parity, age of mother, height, wight, marital status, and smoker status. 
 
@@ -11,14 +11,14 @@
 * Some of the data visualizations include: histograms, probability plot (qqplot), botplot, residual plot, linear regression 
 
 
-####Setup
+#### Setup
 * R version: 3.4.4
 * Operating system: OS X  El Capital; version 10.11.16
 * packages: dyplr, ggplot2
 
 
 
-####Notes 
+#### Notes 
 
 * Created KaiserBabies.csv located in the data directory with the purpose to illustrate the data I will be using without having to run any R script. using 
 
