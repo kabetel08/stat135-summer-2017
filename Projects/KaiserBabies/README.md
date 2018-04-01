@@ -2,7 +2,7 @@
 
 #### About
 
-* The purpose of the project is to apply mathematical statistic and data analysis using R on an pre cleaned data file called Infants. The data can be obtained from the url found in the notes below. Some of its variables include: gestation period, birthweight, parity, age of mother, height, wight, marital status, and smoker status. 
+* The purpose of the project is to apply mathematical statistics and data analysis using R on an pre cleaned data file called Infants. The data can be obtained from the url found in the notes below. Some of its variables include: gestation period, birthweight, parity, age of mother, height, wight, marital status, and smoker status. 
 
 * The project attempts to investigate several factors affecting infants’ health, such as:  the normality of mothers’ weight, the normality of the infants’ gestation period for mothers who smoke and those who have never smoked,  perform linear regression to understand the relationship between the infants’ gestation period and their birthweight, and compare the infants’ birthweight for mothers who smoke versus those have never smoked. 
 
