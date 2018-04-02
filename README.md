@@ -11,7 +11,7 @@
 * Lab 1
 * Lab 2
 
-### Projects
+#### Projects
 * kaiserBabies - final take home 
 
 #### Setup
